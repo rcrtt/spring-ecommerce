@@ -1,7 +1,13 @@
 package com.curso.ecommerce.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="productos")
 public class Producto {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
 	private String descripcion;
@@ -9,12 +15,15 @@ public class Producto {
 	private double precio;
 	private int cantidad;
 	
+	@ManyToOne
+	private Usuario usuario;
+	
 	public Producto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Producto(Integer id, String nombre, String descripcion, String imagen, double precio, int cantidad) {
+	public Producto(Integer id,String nombre, String descripcion, String imagen, double precio, int cantidad, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -22,6 +31,17 @@ public class Producto {
 		this.imagen = imagen;
 		this.precio = precio;
 		this.cantidad = cantidad;
+		this.usuario=usuario;
+	}
+
+	
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -75,7 +95,7 @@ public class Producto {
 	@Override
 	public String toString() {
 		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", imagen=" + imagen
-				+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
+				+ ", precio=" + precio + ", cantidad=" + cantidad + ", usuario=" + usuario + "]";
 	}
 	
 	
