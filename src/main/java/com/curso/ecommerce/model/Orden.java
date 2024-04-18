@@ -1,6 +1,7 @@
 package com.curso.ecommerce.model;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -20,8 +21,8 @@ public class Orden {
 	@ManyToOne
 	private Usuario usuario;
 	
-	@OneToOne(mappedBy="orden")
-	private DetalleOrden detalle;
+	@OneToMany(mappedBy="orden")
+	private List<DetalleOrden> detalle;
 
 	public Orden() {
 		super();
@@ -38,6 +39,18 @@ public class Orden {
 		this.fechaRecibida = fechaRecibida;
 		this.total = total;
 		this.usuario=usuario;
+	}
+	
+
+
+	public List<DetalleOrden> getDetalle() {
+		return detalle;
+	}
+
+
+
+	public void setDetalle(List<DetalleOrden> detalle) {
+		this.detalle = detalle;
 	}
 
 

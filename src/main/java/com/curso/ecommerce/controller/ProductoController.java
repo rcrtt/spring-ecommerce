@@ -16,8 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.curso.ecommerce.model.Producto;
 import com.curso.ecommerce.model.Usuario;
+import com.curso.ecommerce.service.IUsuarioServicio;
 import com.curso.ecommerce.service.ProductoServicio;
 import com.curso.ecommerce.service.UploadFileService;
+import com.curso.ecommerce.service.UsuarioServiceImpl;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -28,6 +32,9 @@ public class ProductoController {
 	
 	@Autowired
 	private UploadFileService upload;
+	
+	@Autowired
+	private IUsuarioServicio usuarioServ;
 	
 	@Autowired
 	private ProductoServicio productoServ;
@@ -45,10 +52,12 @@ public class ProductoController {
 	Usuario u;
 	
 	@PostMapping("/save")
-	public String save(Producto producto,@RequestParam("img") MultipartFile file) throws IOException { // el request param toma el atributo del onjeto hmtl con id "img"
+	public String save(Producto producto,@RequestParam("img") MultipartFile file, HttpSession session) throws IOException { // el request param toma el atributo del onjeto hmtl con id "img"
 		LOGGER.info("Este es el obj producto {}", producto);
 		LOGGER.info("Este es el obj producto {}", file);
-		u=new Usuario(1,"","","","","","","");
+		
+		Usuario u= usuarioServ.findById(Integer.parseInt(session.getAttribute("idUsuario").toString())).get();
+		
 		producto.setUsuario(u);
 		
 		//imagen
